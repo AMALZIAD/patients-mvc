@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,7 +19,9 @@ import java.util.List;
 public class PatientController {
     private PatientRepository patientRepository ;
 
+    // get the index page xith pagination
     @GetMapping(path="/index")
+    // seet Request params and keep the same name so we dont use @request param again
     public String patients(Model model,
                            @RequestParam(name="page",defaultValue = "0") int page,
                            @RequestParam(name="size",defaultValue = "5") int size,
@@ -30,18 +33,35 @@ public class PatientController {
         model.addAttribute("keyword",keyword);
         return "patients";
     }
+    // if the user just tape the link of website without the specifi page we return the index
     @GetMapping(path="/")
     public String home(){
         return "redirect:/index";
     }
+    // ajout patient
+    //get the html page request the page // when user rquest formpatient
+    // the controller return a html page with model with object patient
+    @GetMapping(path="/formPatient")
+    public String formPatient(Model model){
+        model.addAttribute("patient",new Patient());
+        return "formPatient";
+    }
+    // when the user click on save button
+    @PostMapping(path="/save")
+    public String save(Model model,Patient patient){
+        patientRepository.save(patient);
+        return "formPatient";
+    }
 
+    //  delete link
     @GetMapping(path="/delete")
+    // get the patient id to delete keyword and page to keep the same situation before dletting
     public String delete(Long id,String keyword,int page){
         patientRepository.deleteById(id);
-
         String s = "redirect:/index?page=" + page + "&keyword=" + keyword;
         return s;
     }
+// get Json response
     @GetMapping("/patients")
     @ResponseBody
     public List <Patient> Listpatients(){

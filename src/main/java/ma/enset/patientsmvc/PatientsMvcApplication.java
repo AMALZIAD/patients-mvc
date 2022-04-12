@@ -17,7 +17,7 @@ public class PatientsMvcApplication {
         SpringApplication.run(PatientsMvcApplication.class, args);
 
     }
-    @Bean
+    //@Bean
     CommandLineRunner  commandLineRunner(PatientRepository patientrepository){
         return args ->{
             patientrepository.save(new Patient(null,"Amal",new Date(),true,10));
