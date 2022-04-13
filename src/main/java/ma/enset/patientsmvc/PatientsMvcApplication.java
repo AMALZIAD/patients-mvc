@@ -13,9 +13,7 @@ import java.util.Date;
 public class PatientsMvcApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(PatientsMvcApplication.class, args);
-
     }
     //@Bean
     CommandLineRunner  commandLineRunner(PatientRepository patientrepository){

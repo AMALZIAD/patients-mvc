@@ -5,6 +5,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Size;
 import java.util.Date;
 @Entity // as table in sql
 @Data   // add gitter and sitters
@@ -17,11 +19,13 @@ public class Patient {
     private Long id;
     @Column(length = 50)
     @NonNull
+    @Size(min = 4,max = 50)
     private String nom;
     // specifier le type sur la table sql
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateNaissance;
     private Boolean malade;
+    @DecimalMin("100")
     private int score;
 }
