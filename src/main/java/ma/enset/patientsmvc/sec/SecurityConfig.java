@@ -37,12 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // http.formLogin().loginPage("/login");
         http.formLogin();
         // aauthorisations
-
+        // get this page without authentication
+        http.authorizeRequests().antMatchers("/").permitAll();
         // some operation are authorized only for admin like
-        http.authorizeRequests().antMatchers("/delete/**","/editPatient/**","/formPatient/**","/save/**").
+        http.authorizeRequests().antMatchers("/admin/**").
                 hasRole("ADMIN");
-        http.authorizeRequests().antMatchers("/index/**").
+        http.authorizeRequests().antMatchers("/user/**").
                 hasRole("USER");
+
         http.authorizeRequests().anyRequest().authenticated();// all request needs authentication
         http.exceptionHandling().accessDeniedPage("/403");
     }

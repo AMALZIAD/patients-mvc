@@ -22,7 +22,7 @@ public class PatientController {
     private PatientRepository patientRepository;
 
     // get the index page xith pagination-----------------------INDEX---------------------------------
-    @GetMapping(path = "/index")
+    @GetMapping(path = "/user/index")
     // seet Request params and keep the same name so we dont use @request param again
     public String patients(Model model,
                            @RequestParam(name = "page", defaultValue = "0") int page,
@@ -40,11 +40,11 @@ public class PatientController {
     // if the user just tape the link of website without the specifi page we return the index
     @GetMapping(path = "/")
     public String home() {
-        return "redirect:/index";
+        return "home";
     }
 
     // get Json response---------------------------------------------------------JSON RESPONSE---------------------------------*-
-    @GetMapping("/patients")
+    @GetMapping("/user/patients")
     @ResponseBody
     public List<Patient> Listpatients() {
         return patientRepository.findAll();
@@ -53,7 +53,7 @@ public class PatientController {
     // ajout patient---------------------------------------------------------------ADD PATIENT----------------------------------
     //get the html page request the page // when user rquest formpatient
     // the controller return a html page with model with object patient
-    @GetMapping(path = "/formPatient")
+    @GetMapping(path = "/admin/formPatient")
     public String formPatient(Model model) {
         model.addAttribute("patient", new Patient());
         return "formPatient";
@@ -61,7 +61,7 @@ public class PatientController {
 
     //------------------------------------------------------------------------------------EDIT PATIENT--------------------------------
     // when user click on lick to edit patient we get the id page and keyword in QUERY PARAM
-    @GetMapping(path = "/editPatient")
+    @GetMapping(path = "/admin/editPatient")
     public String editPatient(Model model, Long id, String keyword, int page) {
         //add data from request to the model and send the html page to the client
         Patient patient=patientRepository.findById(id).orElse(null);
@@ -73,17 +73,17 @@ public class PatientController {
     }
 
     //  delete link------------------------------------------------------------------------DELETE PATIENT-------------------------
-    @GetMapping(path = "/delete")
+    @GetMapping(path = "/admin/delete")
     // get the patient id to delete keyword and page to keep the same situation before dletting
     public String delete(Long id, String keyword, int page) {
         patientRepository.deleteById(id);
-        String s = "redirect:/index?page=" + page + "&keyword=" + keyword;
+        String s = "redirect:/user/index?page=" + page + "&keyword=" + keyword;
         return s;
     }
 
     //---------------------------------------------------------------------------------------SAVE OPERATION---------------------------
     // when the user click on save button
-    @PostMapping(path = "/save")
+    @PostMapping(path = "/admin/save")
     public String save(Model model, @Valid Patient patient, BindingResult bindingResult,
                        @RequestParam(name = "page", defaultValue = "0") int page,
                        @RequestParam(name = "keyword", defaultValue = "") String keyword) {
@@ -95,8 +95,10 @@ public class PatientController {
         if (bindingResult.hasErrors())
             return str;
         patientRepository.save(patient);
-        return "redirect:/index?page=" + page + "&keyword=" + keyword;
+        return "redirect:/user/index?page=" + page + "&keyword=" + keyword;
     }
+
+
 
 }
 
