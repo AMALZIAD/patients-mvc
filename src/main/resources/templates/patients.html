@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="template">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        layout:decorate="template">
 <head>
     <meta charset="UTF-8">
     <title>Patients</title>
@@ -40,9 +41,9 @@ layout:decorate="template">
                          <td th:text="${p.dateNaissance}"></td>
                          <td th:text="${p.malade}"></td>
                          <td th:text="${p.score}"></td>
-                         <td > <a class="btn btn-success "
+                         <td > <a class="btn btn-success " sec:authorize="hasRole('ADMIN')"
                                   th:href="@{editPatient(id=${p.id},keyword=${keyword},page=${currentPage})}" >Edit</a> </td>
-                         <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')"
+                         <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')" sec:authorize="hasRole('ADMIN')"
                                  th:href="@{delete(id=${p.id},keyword=${keyword},page=${currentPage})}" >Delete
                          </a></td>
                      </tr>

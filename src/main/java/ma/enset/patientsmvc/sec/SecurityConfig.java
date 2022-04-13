@@ -18,8 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // des password crypté  sans cryptage en note "{noop}1234" sinon
-        PasswordEncoder passwordEncoder=passwordEncoder();
-        String pwdEncoded =passwordEncoder.encode("1234");
+        PasswordEncoder passwordEncoder1=passwordEncoder();
+        String pwdEncoded =passwordEncoder1.encode("1234");
 
         // in this tp in momery all user are stored in the memory
         auth.inMemoryAuthentication()
@@ -37,7 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // http.formLogin().loginPage("/login");
         http.formLogin();
         // aauthorisations
+
+        // some operation are authorized only for admin like
+        http.authorizeRequests().antMatchers("/delete/**","/editPatient/**","/formPatient/**","/save/**").
+                hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/index/**").
+                hasRole("USER");
         http.authorizeRequests().anyRequest().authenticated();// all request needs authentication
+        http.exceptionHandling().accessDeniedPage("/403");
     }
     @Bean // start in the beggining and placed it in your context it become spring bean
         // if this needed in other pacages we use only autowired ( in other class)
