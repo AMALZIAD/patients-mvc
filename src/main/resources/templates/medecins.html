@@ -12,8 +12,8 @@
      <div class="container mt-2">
          <div class="card">
              <div class="card-body">
-                 <h3>Liste des patients</h3>
-                 <form class="row g-3" method="get" th:action="@{/user/indexP}">
+                 <h3>Liste des Médecins</h3>
+                 <form class="row g-3" method="get" th:action="@{/user/indexM}">
                      <div class="col-auto">
                          <label  class="form-label">Key word</label>
                      </div>
@@ -27,21 +27,28 @@
                  <table class="table">
                      <thead>
                      <tr> <th scope="col">ID</th><th scope="col">Nom</th>
-                         <th scope="col">Date</th><th scope="col">Malade</th>
-                         <th scope="col">Score</th>
+                         <th scope="col">Date</th><th scope="col">Grade</th>
+                         <th scope="col">Status</th>
                      </tr>
+
+
+                     private Date datEmbauche;
+                     private String grade;
+                     private boolean status;
                      </thead>
                      <tbody>
-                     <tr th:each="p:${listPatients}">
-                         <td th:text="${p.id}"></td>
-                         <td th:text="${p.nom}"></td>
-                         <td th:text="${p.dateNaissance}"></td>
-                         <td th:text="${p.malade}"></td>
-                         <td th:text="${p.score}"></td>
+
+                     <tr th:each="m:${listMedecins}">
+                         <td th:text="${m.id}"></td>
+                         <td th:text="${m.nom}"></td>
+                         <td th:text="${m.datEmbauche}"></td>
+                         <td th:text="${m.grade}"></td>
+                         <td th:text="${m.status}"></td>
+
                          <td > <a class="btn btn-success " sec:authorize="hasRole('ADMIN')"
-                                  th:href="@{/admin/editPatient(id=${p.id},keyword=${keyword},page=${currentPage})}" >Edit</a> </td>
+                                  th:href="@{/admin/editPatient(id=${m.id},keyword=${keyword},page=${currentPage})}" >Edit</a> </td>
                          <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')" sec:authorize="hasRole('ADMIN')"
-                                 th:href="@{/admin/delete(id=${p.id},keyword=${keyword},page=${currentPage})}" >Delete
+                                 th:href="@{/admin/deleteM(id=${m.id},keyword=${keyword},page=${currentPage})}" >Delete
                          </a></td>
                      </tr>
                      </tbody>
@@ -50,7 +57,7 @@
                      <li th:each="page,status:${pages}">
                          <a th:class="${status.index==currentPage?'btn btn-primary m-lg-1':'btn btn-outline-primary m-lg-1'}"
                             th:text="${status.index}"
-                            th:href="@{/user/indexP(page=${status.index},keyword=${keyword})}" ></a> <!-- call indexP page -->
+                            th:href="@{/user/indexM(page=${status.index},keyword=${keyword})}" ></a> <!-- call indexM page -->
                      </li>
                  </ul>
              </div>

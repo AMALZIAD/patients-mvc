@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="template"
+     >
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter Médecin Patient</title>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container">
+        <div class="col-md-6 mt-4">
+            <form method="post" th:action="@{/admin/saveM}">
+                <div class="row mb-3">
+                    <label for="nom" class="col-sm-2 col-form-label">Nom</label>
+                    <div class="col-sm-10">
+                        <input th:value="${medecin.nom}" type="text" class="form-control" name="nom" id="nom">
+                        <span th:errors="${medecin.nom}"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="datEmbauche" class="col-sm-2 col-form-label">Date Embauche</label>
+                    <div class="col-sm-10">
+                        <input th:value="${medecin.datEmbauche}" type="Date" class="form-control" name="datEmbauche" id="datEmbauche">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="status" class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-10">
+                        <input th:checked="${medecin.status}" type="checkbox" class="form-check-input" name="status" id="status">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="grade" class="col-sm-2 col-form-label">Grade</label>
+                    <div class="col-sm-10">
+                        <select name="grade" id="grade" class="form-select">
+                            <option th:value="${medecin.grade}" > Professeur </option>
+                            <option th:value="${medecin.grade}" > Doctor </option>
+                            <option th:value="${medecin.grade}" > Specialiste </option>
+                            <option th:value="${medecin.grade}" > Géneraliste </option>
+                        </select>
+                        <span th:errors="${medecin.grade}"></span>
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

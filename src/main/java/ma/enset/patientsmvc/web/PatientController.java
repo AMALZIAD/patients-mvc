@@ -21,8 +21,8 @@ import java.util.List;
 public class PatientController {
     private PatientRepository patientRepository;
 
-    // get the index page xith pagination-----------------------INDEX---------------------------------
-    @GetMapping(path = "/user/index")
+    // get the indexP page xith pagination-----------------------indexP---------------------------------
+    @GetMapping(path = "/user/indexP")
     // seet Request params and keep the same name so we dont use @request param again
     public String patients(Model model,
                            @RequestParam(name = "page", defaultValue = "0") int page,
@@ -37,7 +37,7 @@ public class PatientController {
     }
     // ---------------------------------------------------------------------/----------------------------------------------------
 
-    // if the user just tape the link of website without the specifi page we return the index
+    // if the user just tape the link of website without the specifi page we return the indexP
     @GetMapping(path = "/")
     public String home() {
         return "home";
@@ -77,16 +77,20 @@ public class PatientController {
     // get the patient id to delete keyword and page to keep the same situation before dletting
     public String delete(Long id, String keyword, int page) {
         patientRepository.deleteById(id);
-        String s = "redirect:/user/index?page=" + page + "&keyword=" + keyword;
+        String s = "redirect:/user/indexP?page=" + page + "&keyword=" + keyword;
         return s;
     }
 
     //---------------------------------------------------------------------------------------SAVE OPERATION---------------------------
     // when the user click on save button
     @PostMapping(path = "/admin/save")
-    public String save(Model model, @Valid Patient patient, BindingResult bindingResult,
+    public String save(Model model,
                        @RequestParam(name = "page", defaultValue = "0") int page,
-                       @RequestParam(name = "keyword", defaultValue = "") String keyword) {
+                       @RequestParam(name = "keyword", defaultValue = "") String keyword,
+                       @Valid Patient patient, BindingResult bindingResult) {
+        model.addAttribute("patient",patient);// Patient data
+        model.addAttribute("currentPage", page);
+        model.addAttribute("keyword", keyword);
         String str = "";
         if (patient.getId() == null)
             str = "formPatient";
@@ -95,7 +99,7 @@ public class PatientController {
         if (bindingResult.hasErrors())
             return str;
         patientRepository.save(patient);
-        return "redirect:/user/index?page=" + page + "&keyword=" + keyword;
+        return "redirect:/user/indexP?page=" + page + "&keyword=" + keyword;
     }
 
 
