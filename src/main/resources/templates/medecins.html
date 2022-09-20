@@ -45,9 +45,9 @@
                          <td th:text="${m.grade}"></td>
                          <td th:text="${m.status}"></td>
 
-                         <td > <a class="btn btn-success " sec:authorize="hasRole('ADMIN')"
+                         <td > <a class="btn btn-success " sec:authorize="hasAuthority('ADMIN')"
                                   th:href="@{/admin/editPatient(id=${m.id},keyword=${keyword},page=${currentPage})}" >Edit</a> </td>
-                         <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')" sec:authorize="hasRole('ADMIN')"
+                         <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')" sec:authorize="hasAuthority('ADMIN')"
                                  th:href="@{/admin/deleteM(id=${m.id},keyword=${keyword},page=${currentPage})}" >Delete
                          </a></td>
                      </tr>

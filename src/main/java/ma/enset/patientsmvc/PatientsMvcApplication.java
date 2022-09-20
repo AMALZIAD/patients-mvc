@@ -4,10 +4,13 @@ import ma.enset.patientsmvc.entities.Medecin;
 import ma.enset.patientsmvc.entities.Patient;
 import ma.enset.patientsmvc.repositories.MedecinRepository;
 import ma.enset.patientsmvc.repositories.PatientRepository;
+import ma.enset.patientsmvc.sec.services.SecurityService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 
@@ -34,7 +37,7 @@ public class PatientsMvcApplication {
     private Date datEmbauche;
     private String grade;
     private boolean status;
-    @Bean
+    //@Bean
     CommandLineRunner  commandLineRunner(MedecinRepository medecinrepository){
         return args ->{
             medecinrepository.save(new Medecin(null,"najib",new Date(),"general",true));
@@ -46,5 +49,27 @@ public class PatientsMvcApplication {
             });
         };
     }
+    //@Bean
+    CommandLineRunner saveusers(SecurityService securityService){
+        return args -> {
+            securityService.saveNewUser("mohamed", "1234", "1234");
+            securityService.saveNewUser("yasmine", "1234", "1234");
+            securityService.saveNewUser("hassan", "1234", "1234");
 
+            securityService.saveNewRole("ADMIN", "ADMINISTRATEUR");
+            securityService.saveNewRole("USER", "UTILISATEUR");
+
+            securityService.addRoleToUser("mohamed", "USER");
+            securityService.addRoleToUser("mohamed", "ADMIN");
+            securityService.addRoleToUser("yasmine", "USER");
+            securityService.addRoleToUser("hassan", "USER");
+        };
+
+    }
+
+    @Bean // start in the beggining and placed it in your context it become spring bean
+        // if this needed in other pacages we use only autowired ( in other class)
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }

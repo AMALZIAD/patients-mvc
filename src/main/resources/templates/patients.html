@@ -38,9 +38,9 @@
                          <td th:text="${p.dateNaissance}"></td>
                          <td th:text="${p.malade}"></td>
                          <td th:text="${p.score}"></td>
-                         <td > <a class="btn btn-success " sec:authorize="hasRole('ADMIN')"
+                         <td > <a class="btn btn-success " sec:authorize="hasAuthority('ADMIN')"
                                   th:href="@{/admin/editPatient(id=${p.id},keyword=${keyword},page=${currentPage})}" >Edit</a> </td>
-                         <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')" sec:authorize="hasRole('ADMIN')"
+                         <td ><a class="btn btn-danger "onclick="return confirm('Etes vous sure?')" sec:authorize="hasAuthority('ADMIN')"
                                  th:href="@{/admin/delete(id=${p.id},keyword=${keyword},page=${currentPage})}" >Delete
                          </a></td>
                      </tr>

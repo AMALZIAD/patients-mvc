@@ -28,7 +28,7 @@
                         Patient
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownP">
-                        <li><a class="dropdown-item" sec:authorize="hasRole('ADMIN')"
+                        <li><a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')"
                                th:href="@{/admin/formPatient}">Ajouter</a></li>
                         <li><a class="dropdown-item" th:href="@{/user/indexP}">Chercher</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -40,7 +40,7 @@
                         Médecin
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownM">
-                        <li><a class="dropdown-item" sec:authorize="hasRole('ADMIN')"
+                        <li><a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')"
                                th:href="@{/admin/formMedecin}">Ajouter</a></li>
                         <li><a class="dropdown-item" th:href="@{/user/indexM}">Chercher</a></li>
                         <li><hr class="dropdown-divider"></li>
